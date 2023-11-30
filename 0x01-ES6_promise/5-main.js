@@ -1,13 +1,3 @@
-import Building from './5-building.js';
+import uploadPhoto from './5-photo-reject';
 
-const b = new Building(100);
-console.log(b);
-
-class TestBuilding extends Building {}
-
-try {
-    new TestBuilding(200)
-}
-catch(err) {
-    console.log(err);
-}
+console.log(uploadPhoto('guillaume.jpg'));

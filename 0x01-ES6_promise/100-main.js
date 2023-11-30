@@ -1,7 +1,8 @@
-import EVCar from './100-evcar.js';
+import asyncUploadUser from "./100-await";
 
-const ec1 = new EVCar("Tesla", "Turbo", "Red", "250");
-console.log(ec1);
+const test = async () => {
+    const value = await asyncUploadUser();
+    console.log(value);
+};
 
-const ec2 = ec1.cloneCar();
-console.log(ec2);
+test();

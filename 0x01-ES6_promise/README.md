@@ -1,39 +1,32 @@
-# 0x02. ES6 classes
-| `OOP` | `JavaScript` | `ES6` |
+# 0x01. ES6 Promises
+**`Javscript`** **`ES6`**
+
+![meme](./images/meme1.png)
 
 ## Resources
 **Read or watch:**
 
-- [Classes](https://intranet.alxswe.com/rltoken/ke2dSL31JbpAUBW0qWE9WA)
-- [Metaprogramming](https://intranet.alxswe.com/rltoken/6OgF5QGbYclp_cwATfq-0g)
-
+- [Promise](https://intranet.alxswe.com/rltoken/j_0FTFbkTg42JMcAbNPOVQ)
+- [JavaScript Promise: An introduction](https://intranet.alxswe.com/rltoken/2Q2LzNFokcUwpA2u3FKG6Q)
+- [Await](https://intranet.alxswe.com/rltoken/UXb3S2PMBe-SLJ55isMcow)
+- [Async](https://intranet.alxswe.com/rltoken/_K0C7pgEjwaIzU9RpwCb8g)
+- [Throw / Try](https://intranet.alxswe.com/rltoken/UTjDgvKk5l892Xslh0vqcQ)
 
 ## Learning Objectives
 At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
 
-- How to define a Class
-- How to add methods to a class
-- Why and how to add a static method to a class
-- How to extend a class from another
-- Metaprogramming and symbols
-
-## Requirements
-**General**
-
-- All your files will be executed on Ubuntu 18.04 LTS using NodeJS 12.11.x
-- Allowed editors: `vi`, `vim`, `emacs`, `Visual Studio Code`
-- All your files should end with a new line
-- A `README.md` file, at the root of the folder of the project, is mandatory
-- Your code should use the js extension
-- Your code will be tested using the [`Jest Testing Framework`](https://intranet.alxswe.com/rltoken/ECZpKsJ3fm1qRA7lDyhd_Q)
-- Your code will be analyzed using the linter [`ESLint`](https://intranet.alxswe.com/rltoken/Ttd9w5jERwTErJW3DDbVoQ) along with specific rules that we'll provide
-- All of your functions must be exported
+- Promises (how, why, and what)
+- How to use the `then`, `resolve`, `catch` methods
+- How to use every method of the Promise object
+- Throw / Try
+- The `await` operator
+- How to use an `async` function
 
 ## Setup
 **Install NodeJS 12.11.x**
 (in your home directory):
 
-```
+```bash
 curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 sudo apt install nodejs -y
@@ -56,7 +49,7 @@ in your project directory:
 ## Configuration files
 `**package.json**`
 
-```
+```json
 {
   "scripts": {
     "lint": "./node_modules/.bin/eslint",
@@ -80,7 +73,7 @@ in your project directory:
 
 **`babel.config.js`**
 
-```
+```javascript
 module.exports = {
   presets: [
     [
@@ -95,9 +88,29 @@ module.exports = {
 };
 ```
 
+**`utils.js`**
+Use when you get to tasks requiring `uploadPhoto` and `createUser`.
+
+```javascript
+export function uploadPhoto() {
+  return Promise.resolve({
+    status: 200,
+    body: 'photo-profile-1',
+  });
+}
+
+
+export function createUser() {
+  return Promise.resolve({
+    firstName: 'Guillaume',
+    lastName: 'Salva',
+  });
+}
+```
+
 **`.eslintrc.js`**
 
-```
+```javascript
 module.exports = {
   env: {
     browser: false,
@@ -135,525 +148,388 @@ module.exports = {
 };
 ```
 
-## Finally…
-Don’t forget to run `npm install` from the terminal of your project folder to install all necessary project dependencies.
+**and…**
+Don’t forget to run $ `npm install` when you have the `package.json`
+
+**Response Data Format**
+
+`uploadPhoto` returns a response with the format
+
+```json
+{
+  status: 200,
+  body: 'photo-profile-1',
+}
+```
+
+`createUser` returns a response with the format
+
+```json
+{
+  firstName: 'Guillaume',
+  lastName: 'Salva',
+}
+```
 
 ## Tasks
-### 0. You used to attend a place like this at some point
 
-Implement a class named `ClassRoom`:
+### 0. Keep every promise you make and only make promises you can keep
 
-- Prototype: `export default class ClassRoom`
-- It should accept one attribute named `maxStudentsSize` (Number) and assigned to `_maxStudentsSize`
+Return a Promise using this prototype `function getResponseFromAPI()`
 
 ```
 bob@dylan:~$ cat 0-main.js
-import ClassRoom from "./0-classroom.js";
+import getResponseFromAPI from "./0-promise.js";
 
-const room = new ClassRoom(10);
-console.log(room._maxStudentsSize)
+const response = getResponseFromAPI();
+console.log(response instanceof Promise);
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 0-main.js 
-10
-bob@dylan:~$
+true
+bob@dylan:~$ 
 ```
 
-solution - [0-classroom.js](./0-classroom.js)
+solution - [0-promise.js](./0-promise.js)
 
-### 1. Let's make some classrooms
+### 1. Don't make a promise...if you know you can't keep it
 
-Import the `ClassRoom` class from `0-classroom.js`.
+Using the prototype below, return a `promise`. The parameter is a `boolean`.
 
-Implement a function named `initializeRooms`. It should return an array of 3 `ClassRoom` objects with the sizes 19, 20, and 34 (in this order).
+```javascript
+getFullResponseFromAPI(success)
+```
+
+When the argument is:
+
+- `true`
+    - resolve the promise by passing an object with 2 attributes:
+        - `status`: `200`
+        - `body`: `'Success'`
+- `false`
+    - reject the promise with an error object with the message `The fake API is not working currently`
+
+
+Try testing it out for yourself
 
 ```
 bob@dylan:~$ cat 1-main.js
-import initializeRooms from './1-make_classrooms.js';
+import getFullResponseFromAPI from './1-promise';
 
-console.log(initializeRooms());
+console.log(getFullResponseFromAPI(true));
+console.log(getFullResponseFromAPI(false));
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 1-main.js 
-[
-  ClassRoom { _maxStudentsSize: 19 },
-  ClassRoom { _maxStudentsSize: 20 },
-  ClassRoom { _maxStudentsSize: 34 }
-]
+Promise { { status: 200, body: 'Success' } }
+Promise {
+  <rejected> Error: The fake API is not working currently
+    ...
+    ...
 bob@dylan:~$
 ```
 
-solution - [1-make_classrooms.js](./1-make_classrooms.js)
+solution - [1-promise.js](./1-promise.js)
 
-### 2. A Course, Getters, and Setters
+### 2. Catch me if you can!
 
-Implement a class named `HolbertonCourse`:
+Using the function prototype below
 
-- Constructor attributes:
-  - `name` (String)
-  - `length` (Number)
-  - `students` (array of Strings)
+```javascript
+function handleResponseFromAPI(promise)
+```
 
-- Make sure to verify the type of attributes during object creation
+Append three handlers to the function:
 
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
-
-- Implement a getter and setter for each attribute.
+- When the Promise resolves, return an object with the following attributes
+    - `status`: `200`
+    - `body`: `success`
+- When the Promise rejects, return an empty `Error` object
+- For every resolution, log `Got a response from the API` to the console
 
 ```
 bob@dylan:~$ cat 2-main.js
-import HolbertonCourse from "./2-hbtn_course.js";
+import handleResponseFromAPI from "./2-then";
 
-const c1 = new HolbertonCourse("ES6", 1, ["Bob", "Jane"])
-console.log(c1.name);
-c1.name = "Python 101";
-console.log(c1);
-
-try {
-    c1.name = 12;
-} 
-catch(err) {
-    console.log(err);
-}
-
-try {
-    const c2 = new HolbertonCourse("ES6", "1", ["Bob", "Jane"]);
-}
-catch(err) {
-    console.log(err);
-}
+const promise = Promise.resolve();
+handleResponseFromAPI(promise);
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 2-main.js 
-ES6
-HolbertonCourse {
-  _name: 'Python 101',
-  _length: 1,
-  _students: [ 'Bob', 'Jane' ]
-}
-TypeError: Name must be a string
-    ...
-TypeError: Length must be a number
-    ...
+Got a response from the API
 bob@dylan:~$
 ```
 
-solution - [2-hbtn_course.js](./2-hbtn_course.js)
+solution - [2-then.js](./2-then.js)
 
-### 3. Methods, static methods, computed methods names..... MONEY
+### 3. Handle multiple successful promises
 
-Implement a class named `Currency`:
+In this file, import `uploadPhoto` and `createUser` from `utils.js`
 
-- -Constructor attributes:
-  - `code` (String)
-  - `name` (String)
+Knowing that the functions in `utils.js` return promises, use the prototype below to collectively resolve all promises and log `body firstName lastName` to the console.
 
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
-- Implement a getter and setter for each attribute.
-- Implement a method named `displayFullCurrency` that will return the attributes in the following format `name (code)`.
+```javascript
+function handleProfileSignup()
+```
+
+In the event of an error, log `Signup system offline` to the console
 
 ```
 bob@dylan:~$ cat 3-main.js
-import Currency from "./3-currency.js";
+import handleProfileSignup from "./3-all";
 
-const dollar = new Currency('$', 'Dollars');
-console.log(dollar.displayFullCurrency());
+handleProfileSignup();
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 3-main.js 
-Dollars ($)
+photo-profile-1 Guillaume Salva
 bob@dylan:~$
 ```
 
-### 4. Pricing
+solution - [3-all.js](./3-all.js)
 
-Import the class `Currency` from `3-currency.js`
+### 4. Simple promise
 
-Implement a class named `Pricing`:
+Using the following prototype
 
-- Constructor attributes:
-  - `amount` (Number)
-  - `currency` (Currency)
+```javascript
+function signUpUser(firstName, lastName) {
+}
+```
 
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
+That returns a resolved promise with this object:
 
-- Implement a getter and setter for each attribute.
-
-- Implement a method named `displayFullPrice` that returns the attributes in the following format `amount currency_name (currency_code)`.
-
-- Implement a static method named `convertPrice`. It should accept two arguments: `amount` (Number), `conversionRate` (Number). The function should return the amount multiplied by the conversion rate.
+```json
+{
+  firstName: value,
+  lastName: value,
+}
+```
 
 ```
 bob@dylan:~$ cat 4-main.js
-import Pricing from './4-pricing.js';
-import Currency from './3-currency.js';
+import signUpUser from "./4-user-promise";
 
-const p = new Pricing(100, new Currency("EUR", "Euro"))
-console.log(p);
-console.log(p.displayFullPrice());
+console.log(signUpUser("Bob", "Dylan"));
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 4-main.js 
-Pricing {
-  _amount: 100,
-  _currency: Currency { _code: 'EUR', _name: 'Euro' }
-}
-100 Euro (EUR)
+Promise { { firstName: 'Bob', lastName: 'Dylan' } }
 bob@dylan:~$
 ```
 
-solution - [4-pricing.js](./4-pricing.js)
+solution - [4-user-promise.js](./4-user-promise.js)
 
-### 5. A Building
+### 5. Reject the promises
 
-Implement a class named `Building`:
+Write and export a function named `uploadPhoto`. It should accept one argument `fileName` (string).
 
-- Constructor attributes:
-  - `sqft` (Number)
+The function should return a Promise rejecting with an Error and the string `$fileName cannot be processed`
 
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
+```javascript
+export default function uploadPhoto(filename) {
 
-- Implement a getter for each attribute.
-
-- Consider this class as an abstract class. And make sure that any class that extends from it should implement a method named `evacuationWarningMessage`.
-  - If a class that extends from it does not have a `evacuationWarningMessage` method, throw an error with the message `Class extending Building must override evacuationWarningMessage`
+}
+```
 
 ```
 bob@dylan:~$ cat 5-main.js
-import Building from './5-building.js';
+import uploadPhoto from './5-photo-reject';
 
-const b = new Building(100);
-console.log(b);
-
-class TestBuilding extends Building {}
-
-try {
-    new TestBuilding(200)
-}
-catch(err) {
-    console.log(err);
-}
+console.log(uploadPhoto('guillaume.jpg'));
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 5-main.js 
-Building { _sqft: 100 }
-Error: Class extending Building must override evacuationWarningMessage
-    ...
+Promise {
+  <rejected> Error: guillaume.jpg cannot be processed
+  ..
+    ..
 bob@dylan:~$
 ```
 
-solution - [5-building.js](./5-building.js)
+solution - [5-photo-reject.js](./5-photo-reject.js)
 
-### 6. Inheritance
+### 6. Handle multiple promises
 
-Import `Building` from `5-building.js`.
+Import `signUpUser` from `4-user-promise.js` and `uploadPhoto` from `5-photo-reject.js`.
 
-Implement a class named `SkyHighBuilding` that extends from `Building`:
+Write and export a function named `handleProfileSignup`. It should accept three arguments `firstName` (string), `lastName` (string), and `fileName` (string). The function should call the two other functions. When the promises are all settled it should return an array with the following structure:
 
-- Constructor attributes:
-  - `sqft` (Number) (must be assigned to the parent class Building)
-  - `floors` (Number)
-
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
-
-- Implement a getter for each attribute.
-
-- Override the method named evacuationWarningMessage and return the following string `Evacuate slowly the NUMBER_OF_FLOORS floors`.
+```json
+[
+    {
+      status: status_of_the_promise,
+      value: value or error returned by the Promise
+    },
+    ...
+  ]
+```
 
 ```
 bob@dylan:~$ cat 6-main.js
-import SkyHighBuilding from './6-sky_high.js';
+import handleProfileSignup from './6-final-user';
 
-const building = new SkyHighBuilding(140, 60);
-console.log(building.sqft);
-console.log(building.floors);
-console.log(building.evacuationWarningMessage());
+console.log(handleProfileSignup("Bob", "Dylan", "bob_dylan.jpg"));
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 6-main.js 
-140
-60
-Evacuate slowly the 60 floors
+Promise { <pending> }
 bob@dylan:~$
 ```
 
-solution - [6-sky_high.js](./6-sky_high.js)
+solution - [6-final-user.js](./6-final-user.js)
 
-### 7. Airport
+### 7. Load balancer
 
-Implement a class named `Airport`:
+Write and export a function named `loadBalancer`. It should accept two arguments `chinaDownload` (Promise) and `USDownload` (Promise).
 
-- Constructor attributes:
-  - `name` (String)
-  - `code` (String)
+The function should return the value returned by the promise that resolved the first.
 
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
+```javascript
+export default function loadBalancer(chinaDownload, USDownload) {
 
-- The default string description of the class should return the airport `code` (example below).
+}
+```
 
 ```
 bob@dylan:~$ cat 7-main.js
-import Airport from "./7-airport.js";
+import loadBalancer from "./7-load_balancer";
 
-const airportSF = new Airport('San Francisco Airport', 'SFO');
-console.log(airportSF);
-console.log(airportSF.toString());
+const ukSuccess = 'Downloading from UK is faster';
+const frSuccess = 'Downloading from FR is faster';
+
+const promiseUK = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 100, ukSuccess);
+});
+
+const promiseUKSlow = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 400, ukSuccess);
+});
+
+const promiseFR = new Promise(function(resolve, reject) {
+    setTimeout(resolve, 200, frSuccess);
+});
+
+const test = async () => {
+    console.log(await loadBalancer(promiseUK, promiseFR));
+    console.log(await loadBalancer(promiseUKSlow, promiseFR));
+}
+
+test();
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 7-main.js 
-Airport [SFO] { _name: 'San Francisco Airport', _code: 'SFO' }
-[object SFO]
+Downloading from UK is faster
+Downloading from FR is faster
 bob@dylan:~$
 ```
 
-solution - [7-airport.js](./7-airport.js)
+solution - [7-load_balancer.js](./7-load_balancer.js)
 
-### 8. Primitive - Holberton Class
+### 8. Throw error / try catch
 
-Implement a class named HolbertonClass:
+Write a function named `divideFunction` that will accept two arguments: `numerator` (Number) and `denominator` (Number).
 
-- Constructor attributes:
-  - `size` (Number)
-  - `location` (String)
+When the `denominator` argument is equal to 0, the function should throw a new error with the message cannot `divide by 0`. Otherwise it should return the numerator divided by the denominator.
 
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
+```javascript
+export default function divideFunction(numerator, denominator) {
 
-- When the class is cast into a `Number`, it should return the size.
-
-- When the class is cast into a `String`, it should return the location.
+}
+```
 
 ```
 bob@dylan:~$ cat 8-main.js
-import HolbertonClass from "./8-hbtn_class.js";
+import divideFunction from './8-try';
 
-const hc = new HolbertonClass(12, "Mezzanine")
-console.log(Number(hc));
-console.log(String(hc));
+console.log(divideFunction(10, 2));
+console.log(divideFunction(10, 0));
 
 bob@dylan:~$ 
 bob@dylan:~$ npm run dev 8-main.js 
-12
-Mezzanine
+5
+..../8-try.js:15
+  throw Error('cannot divide by 0');
+  ^
+.....
+
 bob@dylan:~$
 ```
 
-solution - [8-hbtn_class.js](./8-hbtn_class.js)
+solution - [8-try.js](./8-try.js)
 
-### 9. Hoisting
+### 9. Throw an error
 
-Fix this code and make it work.
+Write a function named `guardrail` that will accept one argument `mathFunction` (Function).
 
+This function should create and return an array named `queue`.
+
+When the `mathFunction` function is executed, the value returned by the function should be appended to the queue. If this function throws an error, the error message should be appended to the queue. In every case, the message `Guardrail was processed` should be added to the queue.
+
+Example:
+
+```json
+[
+  1000,
+  'Guardrail was processed',
+]
 ```
-const class2019 = new HolbertonClass(2019, 'San Francisco');
-const class2020 = new HolbertonClass(2020, 'San Francisco');
-
-export class HolbertonClass {
-  constructor(year, location) {
-    this._year = year;
-    this._location = location;
-  }
-
-  get year() {
-    return this._year;
-  }
-
-  get location() {
-    return this._location;
-  }
-}
-
-const student1 = new StudentHolberton('Guillaume', 'Salva', class2020);
-const student2 = new StudentHolberton('John', 'Doe', class2020);
-const student3 = new StudentHolberton('Albert', 'Clinton', class2019);
-const student4 = new StudentHolberton('Donald', 'Bush', class2019);
-const student5 = new StudentHolberton('Jason', 'Sandler', class2019);
-
-export class StudentHolberton {
-  constructor(firstName, lastName) {
-    this._firstName = firstName;
-    this._lastName = lastName;
-    this._holbertonClass = holbertonClass;
-  }
-
-  get fullName() {
-    return `${this._firstName} ${this._lastName}`;
-  }
-
-  get holbertonClass() {
-    return this.holbertonClass;
-  }
-
-  get fullStudentDescription() {
-    return `${self._firstName} ${self._lastName} - ${self._holbertonClass.year} - ${self._holbertonClass.location}`;
-  }
-}
-
-
-export const listOfStudents = [student1, student2, student3, student4, student5];
-```
-
-Result:
 
 ```
 bob@dylan:~$ cat 9-main.js
-import listOfStudents from "./9-hoisting.js";
+import guardrail from './9-try';
+import divideFunction from './8-try';
 
-console.log(listOfStudents);
-
-const listPrinted = listOfStudents.map(
-    student => student.fullStudentDescription
-);
-
-console.log(listPrinted)
+console.log(guardrail(() => { return divideFunction(10, 2)}));
+console.log(guardrail(() => { return divideFunction(10, 0)}));
 
 bob@dylan:~$ 
-bob@dylan:~$ npm run dev 9-main.js
-[
-  StudentHolberton {
-    _firstName: 'Guillaume',
-    _lastName: 'Salva',
-    _holbertonClass: HolbertonClass { _year: 2020, _location: 'San Francisco' }
-  },
-  StudentHolberton {
-    _firstName: 'John',
-    _lastName: 'Doe',
-    _holbertonClass: HolbertonClass { _year: 2020, _location: 'San Francisco' }
-  },
-  StudentHolberton {
-    _firstName: 'Albert',
-    _lastName: 'Clinton',
-    _holbertonClass: HolbertonClass { _year: 2019, _location: 'San Francisco' }
-  },
-  StudentHolberton {
-    _firstName: 'Donald',
-    _lastName: 'Bush',
-    _holbertonClass: HolbertonClass { _year: 2019, _location: 'San Francisco' }
-  },
-  StudentHolberton {
-    _firstName: 'Jason',
-    _lastName: 'Sandler',
-    _holbertonClass: HolbertonClass { _year: 2019, _location: 'San Francisco' }
-  }
-]
-[
-  'Guillaume Salva - 2020 - San Francisco',
-  'John Doe - 2020 - San Francisco',
-  'Albert Clinton - 2019 - San Francisco',
-  'Donald Bush - 2019 - San Francisco',
-  'Jason Sandler - 2019 - San Francisco'
-]
+bob@dylan:~$ npm run dev 9-main.js 
+[ 5, 'Guardrail was processed' ]
+[ 'Error: cannot divide by 0', 'Guardrail was processed' ]
 bob@dylan:~$
 ```
 
-solution - [9-hoisting.js](./9-hoisting.js)
+### 10. Await / Async
+#advanced
+Import `uploadPhoto` and `createUser` from `utils.js`
 
-### 10. Vroom
+Write an async function named `asyncUploadUser` that will call these two functions and return an object with the following format:
 
-Implement a class named `Car`:
-
-- Constructor attributes:
-  - `brand` (String)
-  - `motor` (String)
-  - `color` (String)
-
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`
-
-- Add a method named `cloneCar`. This method should return a new object of the class.
-
-Hint: Symbols in ES6
-
-```
-bob@dylan:~$ cat 10-main.js
-import Car from "./10-car.js";
-
-class TestCar extends Car {}
-
-const tc1 = new TestCar("Nissan", "Turbo", "Pink");
-const tc2 = tc1.cloneCar();
-
-console.log(tc1);
-console.log(tc1 instanceof TestCar);
-
-console.log(tc2);
-console.log(tc2 instanceof TestCar);
-
-console.log(tc1 == tc2);
-
-bob@dylan:~$ 
-bob@dylan:~$ npm run dev 10-main.js
-TestCar { _brand: 'Nissan', _motor: 'Turbo', _color: 'Pink' }
-true
-TestCar { _brand: undefined, _motor: undefined, _color: undefined }
-true
-false
-bob@dylan:~$
+```json
+{
+  photo: response_from_uploadPhoto_function,
+  user: response_from_createUser_function,
+}
 ```
 
+If one of the async function fails, return an empty object. Example:
+
 ```
-bob@dylan:~$ cat 10-main.js
-import Car from "./10-car.js";
-
-class TestCar extends Car {}
-
-const tc1 = new TestCar("Nissan", "Turbo", "Pink");
-const tc2 = tc1.cloneCar();
-
-console.log(tc1);
-console.log(tc1 instanceof TestCar);
-
-console.log(tc2);
-console.log(tc2 instanceof TestCar);
-
-console.log(tc1 == tc2);
-
-bob@dylan:~$ 
-bob@dylan:~$ npm run dev 10-main.js
-TestCar { _brand: 'Nissan', _motor: 'Turbo', _color: 'Pink' }
-true
-TestCar { _brand: undefined, _motor: undefined, _color: undefined }
-true
-false
-bob@dylan:~$
+{
+  photo: null,
+  user: null,
+}
 ```
-
-solution - [10-car.js](./10-car.js)
-
-### 11. EVCar
-
-Import `Car` from `10-car.js`.
-
-Implement a class named `EVCar` that extends the `Car` class:
-
-- Constructor attributes:
-  - `brand` (String)
-  - `motor` (String)
-  - `color` (String)
-  - `range` (String)
-
-- Each attribute must be stored in an “underscore” attribute version (ex: `name` is stored in `_name`)
-
-- For privacy reasons, when `cloneCar` is called on a EVCar object, the object returned should be an instance of `Car` instead of `EVCar`.
 
 ```
 bob@dylan:~$ cat 100-main.js
-import EVCar from './100-evcar.js';
+import asyncUploadUser from "./100-await";
 
-const ec1 = new EVCar("Tesla", "Turbo", "Red", "250");
-console.log(ec1);
+const test = async () => {
+    const value = await asyncUploadUser();
+    console.log(value);
+};
 
-const ec2 = ec1.cloneCar();
-console.log(ec2);
+test();
 
 bob@dylan:~$ 
-bob@dylan:~$ npm run dev 100-main.js
-EVCar {
-  _brand: 'Tesla',
-  _motor: 'Turbo',
-  _color: 'Red',
-  _range: '250'
+bob@dylan:~$ npm run dev 100-main.js 
+{
+  photo: { status: 200, body: 'photo-profile-1' },
+  user: { firstName: 'Guillaume', lastName: 'Salva' }
 }
-Car { _brand: undefined, _motor: undefined, _color: undefined }
 bob@dylan:~$
 ```
 
-solution - [100-evcar.js](./100-evcar.js)
+solution - [100-await.js](./100-await.js)

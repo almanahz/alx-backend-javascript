@@ -1,9 +1,5 @@
-import listOfStudents from "./9-hoisting.js";
+import guardrail from './9-try';
+import divideFunction from './8-try';
 
-console.log(listOfStudents);
-
-const listPrinted = listOfStudents.map(
-    student => student.fullStudentDescription
-);
-
-console.log(listPrinted)
+console.log(guardrail(() => { return divideFunction(10, 2)}));
+console.log(guardrail(() => { return divideFunction(10, 0)}));

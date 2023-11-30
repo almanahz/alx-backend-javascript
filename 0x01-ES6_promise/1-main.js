@@ -1,3 +1,4 @@
-import initializeRooms from './1-make_classrooms.js';
+import getFullResponseFromAPI from './1-promise';
 
-console.log(initializeRooms());
+console.log(getFullResponseFromAPI(true));
+console.log(getFullResponseFromAPI(false));
